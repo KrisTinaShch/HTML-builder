@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 
 const folder = '05-merge-styles';
-
 exports.mergeStyles = async function mergeStyles(folder, mergedFile) {
     try {
 
