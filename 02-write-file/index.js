@@ -11,20 +11,18 @@ const write = fs.createWriteStream(path.join(__dirname,`write.txt`));
 console.log('Привет! Добавить в этот файл немного текста: ')
 
 rl.on('line', (input) => {
-  if (input === 'exit') {
-    console.log('Прощайте!');
-    process.exit(0);
-  } else {
-    write.write(input + '\n');
-  }
+    if (input === 'exit' || input === '\u0003') {
+        process.exit();
+    } else {
+        write.write(input);
+    }
 });
 
 process.on('exit', () => {
-  console.log('Досвидания');
+    console.log('Досвидания !');
 });
 
-process.on('SIGINT', function() {
-    console.log('Досвидания');
-    writeStream.end();
-    process.exit(0);
+process.on('SIGINT', function () {
+    process.exit();
 });
+
