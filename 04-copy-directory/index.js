@@ -18,18 +18,18 @@ async function copyDir() {
 
     await Promise.all(files.map(async (file) => {
 
-        const initFolder = path.join(initFolder, file);
+        const initPath = path.join(initFolder, file);
         const newPath = path.join(newFolder, file);
 
-        const stat = await fs.stat(initFolder);
+        const stat = await fs.stat(initPath);
 
         if (stat.isFile()) {
 
-            await fs.copyFile(initFolder, newPath);
+            await fs.copyFile(initPath, newPath);
 
         } else if (stat.isDirectory()) {
 
-            await copyDirRecursive(initFolder, newPath);
+            await copyDirRecursive(initPath, newPath);
 
         }
     }));
@@ -59,12 +59,12 @@ async function copyDirRecursive(source, target) {
 
         const newPath = path.join(target, file);
 
-        const stat = await fs.stat(initFolder);
-        
+        const stat = await fs.stat(initPath);
+
         if (stat.isFile()) {
-            await fs.copyFile(initFolder, newPath);
+            await fs.copyFile(initPath, newPath);
         } else if (stat.isDirectory()) {
-            await copyDirRecursive(initFolder, newPath);
+            await copyDirRecursive(initPath, newPath);
         }
     }));
 }
@@ -72,3 +72,4 @@ async function copyDirRecursive(source, target) {
 copyDir()
     .then(() => console.log('Папка скопирована!'))
     .catch((err) => console.error(err));
+
