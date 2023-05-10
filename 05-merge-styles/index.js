@@ -2,17 +2,16 @@ const fsPromises = require('fs/promises');
 const fs = require('fs');
 const path = require('path');
 
-const folder = '05-merge-styles';
-exports.mergeStyles = async function mergeStyles(folder, mergedFile) {
+const initFolder = '05-merge-styles';
+
+exports.mergeStyles = async function mergeStyles(initFolder, mergedFile) {
     try {
-
-        const folder = await fsPromises.readdir(path.join(`${folder}/styles`),
+        const folder = await fsPromises.readdir(path.join(`${initFolder}/styles`),
             { withFileTypes: true });
-
-        const bundle = fs.createWriteStream(`${folder}/${mergedFile}`)
+        const bundle = fs.createWriteStream(`${initFolder}/${mergedFile}`)
         for (const file of folder) {
             if (file.isFile() && path.extname(file.name) === '.css') {
-                const readFile = fs.createReadStream(`${folder}/styles/${file.name}`);
+                const readFile = fs.createReadStream(`${initFolder}/styles/${file.name}`);
                 readFile.pipe(bundle);
             }
         }
@@ -21,5 +20,4 @@ exports.mergeStyles = async function mergeStyles(folder, mergedFile) {
         console.error(err.message);
     }
 }
-
-exports.mergeStyles(folder, 'project-dist/bundle.css');
+exports.mergeStyles(initFolder, 'project-dist/bundle.css');
